@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.0.0-rc.10",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.16",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
