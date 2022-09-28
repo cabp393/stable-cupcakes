@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { Btn } from '../components/Btn'
 import { supabase } from '../lib/supabase'
 
@@ -22,14 +24,10 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    try {
-      const { user, error } = await supabase.auth.signIn({
-        email: email,
-        password: password,
-      })
-    } catch (err) {
-      console.log(err)
-    }
+    // const { user, session, error } = await supabase.auth.signUp({
+    //   email,
+    //   password,
+    // })
   }
 
   return (
@@ -51,7 +49,11 @@ function Login() {
           className="text-black px-4 py-2 rounded-full"
         />
 
-        <Btn title="sign in" onSubmit={handleSubmit} />
+        <Btn title="login" onSubmit={handleSubmit} />
+
+        <NavLink to={'/signup'} end className={'text-content text-center'}>
+          don't have an account? sign up
+        </NavLink>
       </form>
     </section>
   )
