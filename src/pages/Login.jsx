@@ -1,43 +1,42 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useRef, useState } from 'react'
 import { Btn } from '../components/Btn'
 import { supabase } from '../lib/supabase'
+import { useNavigate, NavLink } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 function Login() {
-  const [email, setEmail] = useState(null)
-  const [password, setPassword] = useState(null)
-
-  function handleEmail(e) {
-    const email = e.target.value
-    if (email) {
-      setEmail(email)
-    }
-  }
-
-  function handlePassword(e) {
-    const password = e.target.value
-    if (password) {
-      setPassword(password)
-    }
-  }
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault()
+    setLoading(true)
 
-    // const { user, session, error } = await supabase.auth.signUp({
-    //   email,
-    //   password,
-    // })
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    })
+
+    if (error) {
+      toast.error(error.message.toLowerCase())
+      setLoading(false)
+    } else {
+      toast.success('login success')
+      setLoading(false)
+      navigate('/')
+    }
   }
 
   return (
-    <section className="mt-28 lg:max-w-2xl m-auto">
+    <section className="mt-20 lg:max-w-2xl m-auto">
       <form className="flex flex-col gap-5 px-4" onSubmit={handleSubmit}>
         <label forhtml="email">email</label>
         <input
-          type="text"
+          type="email"
           name="email"
-          onChange={handleEmail}
+          ref={emailRef}
           className="text-black px-4 py-2 rounded-full"
         />
 
@@ -45,11 +44,11 @@ function Login() {
         <input
           type="password"
           name="password"
-          onChange={handlePassword}
+          ref={passwordRef}
           className="text-black px-4 py-2 rounded-full"
         />
 
-        <Btn title="login" onSubmit={handleSubmit} />
+        <Btn title={loading ? 'loading...' : 'login'} onSubmit={handleSubmit} />
 
         <NavLink to={'/signup'} end className={'text-content text-center'}>
           don't have an account? sign up
