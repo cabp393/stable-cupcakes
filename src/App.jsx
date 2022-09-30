@@ -7,6 +7,7 @@ import Home from './pages/home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
+import CreateProduct from './pages/CreateProduct'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="login" element={<Login />} />
+        <Route path="createproduct" element={<CreateProduct />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
