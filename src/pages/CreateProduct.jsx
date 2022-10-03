@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 import { Btn } from '../components/Btn'
 import toast from 'react-hot-toast'
 
-function CreateProduct() {
+function CreateProduct({ session }) {
   const [uploading, setUploading] = useState(false)
   const [productUrl, setProductUrl] = useState(null)
   const [productImg, setProductImg] = useState(null)
@@ -30,7 +30,7 @@ function CreateProduct() {
       const url = URL.createObjectURL(data)
       setProductImg(url)
     } catch (error) {
-      toast.error('Error downloading image: ', error.message)
+      toast.error('error downloading image: ', error.message)
     }
   }
 
@@ -52,9 +52,9 @@ function CreateProduct() {
         .upload(filePath, file)
 
       setProductUrl(data.path)
-      toast.success('Image uploaded')
+      toast.success('image uploaded')
       if (uploadError) {
-        toast.error('Error uploading image: ', uploadError)
+        toast.error('error uploading image: ', uploadError)
       }
     } catch (error) {
       toast.error(error.message)
@@ -63,9 +63,10 @@ function CreateProduct() {
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
     const product = {
+      user_id: session.user.id,
       title: titleRef.current.value,
       slug: slugRef.current.value,
       prompt: promptRef.current.value,
@@ -76,14 +77,26 @@ function CreateProduct() {
       img_url: productUrl,
     }
 
-    console.log(product)
+    try {
+      const { error } = await supabase.from('product').insert([product])
+      if (error) {
+        toast.error('error uploading product:', error.message)
+      } else {
+        toast.success('product created')
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <section className="mt-20 lg:max-w-2xl m-auto">
       <form className="flex flex-col gap-5 px-4" onSubmit={handleSubmit}>
         {productImg ? (
-          <img src={productImg} className="max-w-[50%] max-h-screen" />
+          <img
+            src={productImg}
+            className="rounded object-cover max-h-60 self-center"
+          />
         ) : (
           <input
             type="file"
@@ -91,7 +104,7 @@ function CreateProduct() {
             accept="image/*"
             onChange={uploadProductImg}
             disabled={uploading}
-            className="self-center file:mr-4 file:py-2 file:px-4
+            className="max-w-[80vw] self-center file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0
             file:text-sm file:font-semibold
             file:bg-primary file:text-white hover:file:cursor-pointer"
@@ -122,34 +135,36 @@ function CreateProduct() {
           className="text-black px-5 py-4 rounded-full resize-none overflow-hidden"
         />
 
-        <label forhtml="steps">steps</label>
-        <input
-          type="text"
-          name="steps"
-          ref={stepsRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
-        <label forhtml="sampler">sampler</label>
-        <input
-          type="text"
-          name="sampler"
-          ref={samplerRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
-        <label forhtml="cfg_scale">cfg scale</label>
-        <input
-          type="text"
-          name="cfg_scale"
-          ref={cfg_scaleRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
-        <label forhtml="seed">seed</label>
-        <input
-          type="text"
-          name="seed"
-          ref={seedRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-3">
+          <label forhtml="steps">steps</label>
+          <input
+            type="text"
+            name="steps"
+            ref={stepsRef}
+            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
+          />
+          <label forhtml="sampler">sampler</label>
+          <input
+            type="text"
+            name="sampler"
+            ref={samplerRef}
+            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
+          />
+          <label forhtml="cfg_scale">cfg scale</label>
+          <input
+            type="text"
+            name="cfg_scale"
+            ref={cfg_scaleRef}
+            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
+          />
+          <label forhtml="seed">seed</label>
+          <input
+            type="text"
+            name="seed"
+            ref={seedRef}
+            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
+          />
+        </div>
 
         <Btn title="submit" />
       </form>
