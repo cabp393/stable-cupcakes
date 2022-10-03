@@ -29,7 +29,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="login" element={<Login />} />
-        <Route path="createproduct" element={<CreateProduct />} />
+        <Route
+          path="createproduct"
+          element={<CreateProduct session={session} />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
