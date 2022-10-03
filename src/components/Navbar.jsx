@@ -15,7 +15,7 @@ export function Navbar({ session }) {
   }
 
   return (
-    <nav className="flex flex-cols justify-between sticky top-0 py-3">
+    <nav className="flex flex-cols justify-between py-3">
       <NavLink to="/">
         <div>home</div>
       </NavLink>
