@@ -1,4 +1,4 @@
-import { Btn } from '../components/Btn'
+import { NavLink } from 'react-router-dom'
 
 function Home() {
   const width = window.innerWidth
@@ -17,7 +17,12 @@ function Home() {
         <h1 className="text-6xl lg:text-9xl text-right">cupcakes</h1>
       </div>
 
-      <Btn title="explore" />
+      <NavLink
+        to={'products'}
+        className="bg-primary w-36 p-2 rounded-full self-center mt-10 text-center"
+      >
+        explore
+      </NavLink>
     </div>
   )
 }
