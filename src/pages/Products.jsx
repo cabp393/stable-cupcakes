@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 function Products() {
@@ -46,14 +47,14 @@ function Products() {
     <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 gap-5">
       {productsList?.map(product => {
         return (
-          <div key={product.id}>
+          <NavLink to={product.slug} key={product.id}>
             <img
               src={product.img_url}
               alt={product.title}
               className="rounded"
             />
             <h2>{product.title}</h2>
-          </div>
+          </NavLink>
         )
       })}
     </div>
