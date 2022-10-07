@@ -8,6 +8,7 @@ import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import Products from './pages/Products'
+import $Product from './pages/$Product'
 import CreateProduct from './pages/CreateProduct'
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           element={<CreateProduct session={session} />}
         />
         <Route path="products" element={<Products />} />
+        <Route path="products/:productId" element={<$Product />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
