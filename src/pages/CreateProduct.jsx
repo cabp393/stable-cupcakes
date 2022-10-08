@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase'
 import { Btn } from '../components/Btn'
 import toast from 'react-hot-toast'
 import useSession from '../hooks/useSession'
-import STORE_URL from '../utils/storeUrl'
+import { supabaseStorage } from '../lib/constants'
 
 function CreateProduct() {
   const [uploading, setUploading] = useState(false)
@@ -24,7 +24,7 @@ function CreateProduct() {
       setUploading(true)
 
       if (!event.target.files || event.target.files.length === 0) {
-        toast.error('You must select an image to upload.')
+        throw new error('You must select an image to upload.')
       }
 
       const file = event.target.files[0]
@@ -40,7 +40,7 @@ function CreateProduct() {
         throw uploadError
       }
 
-      setProductUrl(data.path)
+      setProductUrl(`${supabaseStorage}${data.path}`)
       toast.success('image uploaded')
     } catch (error) {
       toast.error('error uploading image')
@@ -82,7 +82,7 @@ function CreateProduct() {
       <form className="flex flex-col gap-5 px-4" onSubmit={handleSubmit}>
         {productUrl ? (
           <img
-            src={`${STORE_URL}${productUrl}`}
+            src={productUrl}
             className="rounded object-cover max-h-60 self-center"
           />
         ) : (
