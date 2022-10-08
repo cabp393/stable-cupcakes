@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { Btn } from '../components/Btn'
 import toast from 'react-hot-toast'
+import useSession from '../hooks/useSession'
+import STORE_URL from '../utils/storeUrl'
 
-function CreateProduct({ session }) {
+function CreateProduct() {
   const [uploading, setUploading] = useState(false)
   const [productUrl, setProductUrl] = useState(null)
-  const [productImg, setProductImg] = useState(null)
   const titleRef = useRef()
   const slugRef = useRef()
   const promptRef = useRef()
@@ -14,25 +16,8 @@ function CreateProduct({ session }) {
   const samplerRef = useRef()
   const cfg_scaleRef = useRef()
   const seedRef = useRef()
-
-  useEffect(() => {
-    if (productUrl) downloadImage(productUrl)
-  }, [productUrl])
-
-  const downloadImage = async path => {
-    try {
-      const { data, error } = await supabase.storage
-        .from('products')
-        .download(path)
-      if (error) {
-        toast.error(error)
-      }
-      const url = URL.createObjectURL(data)
-      setProductImg(url)
-    } catch (error) {
-      toast.error('error downloading image: ', error.message)
-    }
-  }
+  const session = useSession()
+  const navigate = useNavigate()
 
   const uploadProductImg = async event => {
     try {
@@ -51,13 +36,14 @@ function CreateProduct({ session }) {
         .from('products')
         .upload(filePath, file)
 
+      if (uploadError) {
+        throw uploadError
+      }
+
       setProductUrl(data.path)
       toast.success('image uploaded')
-      if (uploadError) {
-        toast.error('error uploading image: ', uploadError)
-      }
     } catch (error) {
-      toast.error(error.message)
+      toast.error('error uploading image')
     } finally {
       setUploading(false)
     }
@@ -80,11 +66,13 @@ function CreateProduct({ session }) {
     try {
       const { error } = await supabase.from('product').insert([product])
       if (error) {
-        toast.error('error uploading product:', error.message)
-      } else {
-        toast.success('product created')
+        throw error
       }
+
+      toast.success('product created')
+      navigate(`/products/${slugRef.current.value}`)
     } catch (error) {
+      toast.error('error uploading product')
       console.error(error)
     }
   }
@@ -92,9 +80,9 @@ function CreateProduct({ session }) {
   return (
     <section className="mt-20 lg:max-w-2xl m-auto">
       <form className="flex flex-col gap-5 px-4" onSubmit={handleSubmit}>
-        {productImg ? (
+        {productUrl ? (
           <img
-            src={productImg}
+            src={`${STORE_URL}${productUrl}`}
             className="rounded object-cover max-h-60 self-center"
           />
         ) : (

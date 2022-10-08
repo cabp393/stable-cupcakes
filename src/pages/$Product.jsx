@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
-import { useParams, useSearchParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import STORE_URL from '../utils/storeUrl'
 
 function $Product() {
   const { productId } = useParams()
@@ -17,32 +17,17 @@ function $Product() {
         .from('product')
         .select('*')
         .eq('slug', slug)
-      if (error || data[0] === undefined) {
+
+      if (error) {
         throw error
       }
-
-      const imgUrl = await downloadImage(data[0].img_url)
-      data[0].img_url = imgUrl
+      if (data[0] === undefined) {
+        return
+      }
 
       setProductDetails(data[0])
     } catch (error) {
       console.error(error)
-    }
-  }
-
-  async function downloadImage(path) {
-    try {
-      const { data, error } = await supabase.storage
-        .from('products')
-        .download(path)
-      if (error) {
-        throw error
-      }
-
-      const url = URL.createObjectURL(data)
-      return url
-    } catch (error) {
-      toast.error('error downloading image: ', error.message)
     }
   }
 
@@ -55,7 +40,7 @@ function $Product() {
           </div>
           <div className="md:grid md:grid-cols-2 md:mt-7 md:gap-x-3">
             <img
-              src={productDetails.img_url}
+              src={`${STORE_URL}${productDetails.img_url}`}
               alt={productDetails.title}
               className="rounded-[10px] py-5 justify-self-center md:py-0 md:max-w-full"
             />

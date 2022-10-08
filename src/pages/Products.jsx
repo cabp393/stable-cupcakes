@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import STORE_URL from '../utils/storeUrl'
 
 function Products() {
   const [productsList, setProductList] = useState([])
@@ -14,11 +15,6 @@ function Products() {
       const { data, error } = await supabase.from('product').select('*')
       if (error) {
         throw error
-      }
-
-      for (const product of data) {
-        const imgUrl = await downloadImage(product.img_url)
-        product.img_url = imgUrl
       }
 
       setProductList(data)
@@ -49,7 +45,7 @@ function Products() {
         return (
           <NavLink to={product.slug} key={product.id}>
             <img
-              src={product.img_url}
+              src={`${STORE_URL}${product.img_url}`}
               alt={product.title}
               className="rounded"
             />
