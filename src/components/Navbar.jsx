@@ -1,7 +1,9 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import useSession from '../hooks/useSession'
 import { supabase } from '../lib/supabase'
 
-export function Navbar({ session }) {
+export function Navbar() {
+  const session = useSession()
   const params = useLocation().pathname.slice(1)
   const navigate = useNavigate()
 
