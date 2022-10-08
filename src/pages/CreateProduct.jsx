@@ -1,33 +1,40 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import { supabaseStorage } from '../lib/constants'
 import { Btn } from '../components/Btn'
+import { Input } from '../components/Input'
+import { TextArea } from '../components/TextArea'
 import toast from 'react-hot-toast'
 import useSession from '../hooks/useSession'
-import { supabaseStorage } from '../lib/constants'
+import insertProduct from '../services/insertProduct'
 
 function CreateProduct() {
+  const [loading, setLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [productUrl, setProductUrl] = useState(null)
-  const titleRef = useRef()
-  const slugRef = useRef()
-  const promptRef = useRef()
-  const stepsRef = useRef()
-  const samplerRef = useRef()
-  const cfg_scaleRef = useRef()
-  const seedRef = useRef()
+  const [productData, setProductData] = useState({})
   const session = useSession()
   const navigate = useNavigate()
 
-  const uploadProductImg = async event => {
+  const handleInput = e => {
+    const name = e.target.name
+    const value = e.target.value
+    setProductData({
+      ...productData,
+      [name]: value,
+    })
+  }
+
+  const uploadProductImg = async e => {
     try {
       setUploading(true)
 
-      if (!event.target.files || event.target.files.length === 0) {
+      if (!e.target.files || e.target.files.length === 0) {
         throw new error('You must select an image to upload.')
       }
 
-      const file = event.target.files[0]
+      const file = e.target.files[0]
       const fileExt = file.name.split('.').pop()
       const fileName = `${Math.random()}.${fileExt}`
       const filePath = `${fileName}`
@@ -40,40 +47,43 @@ function CreateProduct() {
         throw uploadError
       }
 
-      setProductUrl(`${supabaseStorage}${data.path}`)
+      const img_url = `${supabaseStorage}${data.path}`
+
+      setProductUrl(img_url)
+
       toast.success('image uploaded')
     } catch (error) {
       toast.error('error uploading image')
+      console.error(error)
     } finally {
       setUploading(false)
     }
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-    const product = {
-      user_id: session.user.id,
-      title: titleRef.current.value,
-      slug: slugRef.current.value,
-      prompt: promptRef.current.value,
-      steps: stepsRef.current.value,
-      sampler: samplerRef.current.value,
-      cfg_scale: cfg_scaleRef.current.value,
-      seed: seedRef.current.value,
-      img_url: productUrl,
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+
+    if (!productUrl) {
+      toast.error('select product image')
+      return
     }
 
     try {
-      const { error } = await supabase.from('product').insert([product])
-      if (error) {
-        throw error
-      }
+      const error = await insertProduct({
+        ...productData,
+        img_url: productUrl,
+        user_id: session.user.id,
+      })
+      if (error) throw error
 
       toast.success('product created')
-      navigate(`/products/${slugRef.current.value}`)
+      navigate(`/products/${productData.slug}`)
     } catch (error) {
       toast.error('error uploading product')
       console.error(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -99,62 +109,18 @@ function CreateProduct() {
           />
         )}
 
-        <label forhtml="title">title</label>
-        <input
-          type="text"
-          name="title"
-          ref={titleRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
-
-        <label forhtml="slug">slug</label>
-        <input
-          type="text"
-          name="slug"
-          ref={slugRef}
-          className="text-black px-4 py-2 rounded-full"
-        />
-
-        <label forhtml="prompt">prompt</label>
-        <textarea
-          type="text"
-          name="prompt"
-          ref={promptRef}
-          className="text-black px-5 py-4 rounded-full resize-none overflow-hidden"
-        />
+        <Input title="title" handler={handleInput} />
+        <Input title="slug" handler={handleInput} />
+        <TextArea title="prompt" handler={handleInput} />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-3">
-          <label forhtml="steps">steps</label>
-          <input
-            type="text"
-            name="steps"
-            ref={stepsRef}
-            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
-          />
-          <label forhtml="sampler">sampler</label>
-          <input
-            type="text"
-            name="sampler"
-            ref={samplerRef}
-            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
-          />
-          <label forhtml="cfg_scale">cfg scale</label>
-          <input
-            type="text"
-            name="cfg_scale"
-            ref={cfg_scaleRef}
-            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
-          />
-          <label forhtml="seed">seed</label>
-          <input
-            type="text"
-            name="seed"
-            ref={seedRef}
-            className="text-black max-w-[35vh] px-4 py-2 rounded-full"
-          />
+          <Input title="steps" handler={handleInput} />
+          <Input title="sampler" handler={handleInput} />
+          <Input title="cfg scale" handler={handleInput} />
+          <Input title="seed" handler={handleInput} />
         </div>
 
-        <Btn title="submit" />
+        <Btn title={loading ? '...loading' : 'submit'} />
       </form>
     </section>
   )
