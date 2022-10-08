@@ -5,27 +5,32 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 function Login() {
-  const emailRef = useRef()
-  const passwordRef = useRef()
   const [loading, setLoading] = useState(false)
+  const passwordRef = useRef()
+  const emailRef = useRef()
+
   const navigate = useNavigate()
 
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    })
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      })
 
-    if (error) {
-      toast.error(error.message.toLowerCase())
-      setLoading(false)
-    } else {
+      if (error) {
+        throw error
+      }
+
       toast.success('login success')
-      setLoading(false)
       navigate('/')
+    } catch {
+      toast.error('email or password error')
+    } finally {
+      setLoading(false)
     }
   }
 
