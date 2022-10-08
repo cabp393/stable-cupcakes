@@ -1,35 +1,9 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import STORE_URL from '../utils/storeUrl'
+import useProductDetails from '../hooks/useProductDetails'
 
 function $Product() {
   const { productId } = useParams()
-  const [productDetails, setProductDetails] = useState(null)
-
-  useEffect(() => {
-    getProducts(productId)
-  }, [productId])
-
-  async function getProducts(slug) {
-    try {
-      const { data, error } = await supabase
-        .from('product')
-        .select('*')
-        .eq('slug', slug)
-
-      if (error) {
-        throw error
-      }
-      if (data[0] === undefined) {
-        return
-      }
-
-      setProductDetails(data[0])
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  const productDetails = useProductDetails(productId)
 
   return (
     <div>
@@ -40,7 +14,7 @@ function $Product() {
           </div>
           <div className="md:grid md:grid-cols-2 md:mt-7 md:gap-x-3">
             <img
-              src={`${STORE_URL}${productDetails.img_url}`}
+              src={productDetails.img_url}
               alt={productDetails.title}
               className="rounded-[10px] py-5 justify-self-center md:py-0 md:max-w-full"
             />
