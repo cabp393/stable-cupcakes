@@ -42,7 +42,7 @@ function Login() {
         <Input title="email" handler={handleInput} type="email" />
         <Input title="password" handler={handleInput} type="password" />
 
-        <Btn title={loading ? 'loading...' : 'login'} onSubmit={handleSubmit} />
+        <Btn title={loading ? 'loading...' : 'login'} />
 
         <NavLink to={'/signup'} className="text-content text-center">
           don't have an account? sign up
