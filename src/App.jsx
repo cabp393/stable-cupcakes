@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import { Toaster } from 'react-hot-toast'
-import Home from './pages/home'
+import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
