@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 import { Toaster } from 'react-hot-toast'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
@@ -25,6 +26,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
+      <Footer />
       <Toaster toastOptions={toastCfg} />
     </main>
   )
