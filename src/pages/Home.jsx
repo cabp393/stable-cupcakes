@@ -2,14 +2,14 @@ import { NavLink } from 'react-router-dom'
 
 function Home() {
   const width = window.innerWidth
-  const heroImg = width > 480 ? '/full.png' : '/mobile.png'
+  const heroImg = width > 480 ? '/full.avif' : '/mobile.avif'
 
   return (
     <div className="flex flex-col">
       <img
         src={heroImg}
         alt="stable cupcake"
-        className="absolute top-0 left-0 -z-10  w-full opacity-50"
+        className="absolute top-0 left-0 -z-10  w-full"
       />
 
       <div className="flex flex-col self-center mt-80 w-full lg:max-w-3xl lg:mt-60">
