@@ -1,18 +1,24 @@
 import { NavLink } from 'react-router-dom'
 import { AddButton } from '../components/AddButton'
 import useProductsList from '../hooks/useProductsList'
+import useSession from '../hooks/useSession'
 
 function Products() {
   const productsList = useProductsList()
+  const session = useSession()
 
   return (
     <div className="content-center w-full">
       <div className="flex justify-around items-baseline my-5 md:my-10">
         <div className="w-[30px]"></div>
         <div className="text-5xl text-center">products</div>
-        <NavLink to={'/createproduct'}>
-          <AddButton className="fill-content" size={28} />
-        </NavLink>
+        {session ? (
+          <NavLink to={'/createproduct'}>
+            <AddButton className="fill-content" size={28} />
+          </NavLink>
+        ) : (
+          <div className="w-[30px]"></div>
+        )}
       </div>
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 gap-5">
         {productsList?.map(product => {
