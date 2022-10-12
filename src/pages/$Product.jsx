@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import useProductDetails from '../hooks/useProductDetails'
+import { useDataContext } from '../hooks/useDataContext'
 
 function $Product() {
   const { productId } = useParams()
-  const productDetails = useProductDetails(productId)
+  const { productsList } = useDataContext()
+  const [productDetails, setProductsDetails] = useState(null)
+
+  useEffect(() => {
+    if (!!productsList) {
+      const aux = productsList.filter(p => p.slug === productId)
+      setProductsDetails(aux[0])
+    }
+  }, [productsList])
 
   return (
     <div>

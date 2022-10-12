@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { AddButton } from '../components/AddButton'
-import useProductsList from '../hooks/useProductsList'
+import { useDataContext } from '../hooks/useDataContext'
 import useSession from '../hooks/useSession'
 
 function Products() {
-  const productsList = useProductsList()
+  const { productsList } = useDataContext()
   const session = useSession()
 
   return (
