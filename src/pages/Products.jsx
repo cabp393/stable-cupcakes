@@ -28,6 +28,7 @@ function Products() {
                 src={product.img_url}
                 alt={product.title}
                 className="rounded"
+                loading="lazy"
               />
               <h2>{product.title}</h2>
             </NavLink>
