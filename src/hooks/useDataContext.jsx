@@ -5,11 +5,13 @@ export const DataContext = createContext()
 
 export function DataContextProvider(props) {
   const [productsList, setProductsList] = useState(null)
-  const value = { productsList, setProductsList }
+  const [refresh, setRefresh] = useState(false)
+  const value = { productsList, setProductsList, setRefresh }
 
   useEffect(() => {
     getProducts()
-  }, [])
+    setRefresh(false)
+  }, [refresh])
 
   const getProducts = async () => {
     try {

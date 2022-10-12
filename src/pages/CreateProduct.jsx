@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { supabaseStorage } from '../lib/constants'
+import { useDataContext } from '../hooks/useDataContext'
 import { Btn } from '../components/Btn'
 import { Input } from '../components/Input'
 import { TextArea } from '../components/TextArea'
@@ -16,6 +17,7 @@ function CreateProduct() {
   const [productData, setProductData] = useState({})
   const session = useSession()
   const navigate = useNavigate()
+  const { setRefresh } = useDataContext()
 
   const handleInput = e => {
     const name = e.target.name
@@ -43,14 +45,10 @@ function CreateProduct() {
         .from('products')
         .upload(filePath, file)
 
-      if (uploadError) {
-        throw uploadError
-      }
+      if (uploadError) throw uploadError
 
       const img_url = `${supabaseStorage}${data.path}`
-
       setProductUrl(img_url)
-
       toast.success('image uploaded')
     } catch (error) {
       toast.error('error uploading image')
@@ -77,6 +75,7 @@ function CreateProduct() {
       })
       if (error) throw error
 
+      setRefresh(true)
       toast.success('product created')
       navigate(`/products/${productData.slug}`)
     } catch (error) {
