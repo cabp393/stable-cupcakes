@@ -43,7 +43,7 @@ export function InputFile({ productUrl, setProductUrl }) {
           <IconDelete
             size={30}
             onClick={() => setProductUrl(null)}
-            className="absolute right-[180px] -top-5 hover:cursor-pointer"
+            className="absolute right-[10px] lg:right-[180px] -top-5 hover:cursor-pointer"
           />
           <img
             src={productUrl}
