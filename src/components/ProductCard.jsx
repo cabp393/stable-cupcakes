@@ -8,7 +8,7 @@ export function ProductCard({ productDetails }) {
         <img
           src={productDetails.img_url}
           alt={productDetails.title}
-          className="rounded-[10px] py-5 justify-self-center md:py-0 md:max-w-full"
+          className="rounded-[10px] my-5 mx-auto md:my-0 md:max-w-full"
           loading="lazy"
         />
         <div className="flex flex-col gap-5 md:max-w-lg">
