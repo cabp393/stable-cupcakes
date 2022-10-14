@@ -16,13 +16,13 @@ function $Product() {
   }, [productsList])
 
   return (
-    <div>
+    <>
       {productDetails ? (
         <ProductCard productDetails={productDetails} />
       ) : (
         <h1>product not found</h1>
       )}
-    </div>
+    </>
   )
 }
 
