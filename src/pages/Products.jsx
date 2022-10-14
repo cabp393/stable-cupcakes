@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { AddButton } from '../components/AddButton'
+import { IconAdd } from '../components/IconAdd'
 import { useDataContext } from '../hooks/useDataContext'
 import useSession from '../hooks/useSession'
 
@@ -14,7 +14,7 @@ function Products() {
         <div className="text-5xl text-center">products</div>
         {session ? (
           <NavLink to={'/createproduct'}>
-            <AddButton className="fill-content" size={28} />
+            <IconAdd className="fill-content" size={28} />
           </NavLink>
         ) : (
           <div className="w-[30px]"></div>

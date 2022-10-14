@@ -1,4 +1,4 @@
-export function GitHubIcon({ size, className }) {
+export function IconGithub({ size, className }) {
   return (
     <svg
       className={className}

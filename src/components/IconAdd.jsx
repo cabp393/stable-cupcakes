@@ -1,4 +1,4 @@
-export function AddButton({ size, className }) {
+export function IconAdd({ size, className }) {
   return (
     <svg
       className={className}
