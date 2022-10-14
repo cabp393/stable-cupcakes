@@ -15,9 +15,9 @@ function CreateProduct() {
   const [uploading, setUploading] = useState(false)
   const [productUrl, setProductUrl] = useState(null)
   const [productData, setProductData] = useState({})
+  const { setRefresh } = useDataContext()
   const session = useSession()
   const navigate = useNavigate()
-  const { setRefresh } = useDataContext()
 
   const handleInput = e => {
     const name = e.target.name
@@ -64,6 +64,7 @@ function CreateProduct() {
 
     if (!productUrl) {
       toast.error('select product image')
+      setLoading(false)
       return
     }
 
