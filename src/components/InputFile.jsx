@@ -48,8 +48,8 @@ export function InputFile({ productImage, setProductImage }) {
           />
           <img
             src={productImage.img_url}
-            height={product.img_height}
-            width={product.img_width}
+            height={productImage.img_height}
+            width={productImage.img_width}
             alt="Product image"
             className="rounded-2xl object-cover max-h-60 self-center"
           />
