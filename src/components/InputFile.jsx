@@ -3,8 +3,9 @@ import { supabase } from '../lib/supabase'
 import { supabaseStorage } from '../lib/constants'
 import { IconDelete } from '../components/IconDelete'
 import toast from 'react-hot-toast'
+import getImageDimensions from '../utils/getImageDimensions'
 
-export function InputFile({ productUrl, setProductUrl }) {
+export function InputFile({ productImage, setProductImage }) {
   const [uploading, setUploading] = useState(false)
 
   const uploadProductImg = async e => {
@@ -27,7 +28,7 @@ export function InputFile({ productUrl, setProductUrl }) {
       if (uploadError) throw uploadError
 
       const img_url = `${supabaseStorage}${data.path}`
-      setProductUrl(img_url)
+      getImageDimensions(img_url, setProductImage)
       toast.success('image uploaded')
     } catch (error) {
       toast.error('error uploading image')
@@ -38,16 +39,19 @@ export function InputFile({ productUrl, setProductUrl }) {
   }
   return (
     <>
-      {productUrl ? (
+      {productImage?.img_url ? (
         <div className="flex justify-center relative">
           <IconDelete
             size={30}
-            onClick={() => setProductUrl(null)}
+            onClick={() => setProductImage(null)}
             className="absolute right-[10px] lg:right-[180px] -top-5 hover:cursor-pointer"
           />
           <img
-            src={productUrl}
-            className="rounded object-cover max-h-60 self-center"
+            src={productImage.img_url}
+            height={product.img_height}
+            width={product.img_width}
+            alt="Product image"
+            className="rounded-2xl object-cover max-h-60 self-center"
           />
         </div>
       ) : (

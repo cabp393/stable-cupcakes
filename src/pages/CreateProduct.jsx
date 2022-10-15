@@ -11,7 +11,7 @@ import insertProduct from '../services/insertProduct'
 
 function CreateProduct() {
   const [loading, setLoading] = useState(false)
-  const [productUrl, setProductUrl] = useState(null)
+  const [productImage, setProductImage] = useState(null)
   const [productData, setProductData] = useState({})
   const { setRefresh } = useDataContext()
   const session = useSession()
@@ -30,7 +30,7 @@ function CreateProduct() {
     e.preventDefault()
     setLoading(true)
 
-    if (!productUrl) {
+    if (!productImage) {
       toast.error('select product image')
       setLoading(false)
       return
@@ -39,7 +39,9 @@ function CreateProduct() {
     try {
       const error = await insertProduct({
         ...productData,
-        img_url: productUrl,
+        img_url: productImage.img_url,
+        img_width: productImage.img_width,
+        img_height: productImage.img_height,
         user_id: session.user.id,
       })
 
@@ -59,7 +61,10 @@ function CreateProduct() {
   return (
     <section className="mt-20 lg:max-w-2xl m-auto">
       <form className="flex flex-col gap-5 px-4" onSubmit={handleSubmit}>
-        <InputFile productUrl={productUrl} setProductUrl={setProductUrl} />
+        <InputFile
+          productImage={productImage}
+          setProductImage={setProductImage}
+        />
 
         <Input title="title" handler={handleInput} />
         <Input title="slug" handler={handleInput} />
