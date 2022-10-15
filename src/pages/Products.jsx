@@ -21,19 +21,19 @@ function Products() {
         )}
       </div>
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 gap-5">
-        {productsList?.map(product => {
-          return (
-            <NavLink to={product.slug} key={product.id}>
-              <img
-                src={product.img_url}
-                alt={product.title}
-                className="rounded"
-                loading="lazy"
-              />
-              <h2>{product.title}</h2>
-            </NavLink>
-          )
-        })}
+        {productsList?.map(product => (
+          <NavLink to={product.slug} key={product.id}>
+            <img
+              src={product.img_url}
+              alt={product.title}
+              height={product.img_height}
+              width={product.img_width}
+              className="rounded-2xl"
+              loading="lazy"
+            />
+            <h2>{product.title}</h2>
+          </NavLink>
+        ))}
       </div>
     </div>
   )

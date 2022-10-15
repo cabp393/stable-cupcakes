@@ -8,8 +8,9 @@ export function ProductCard({ productDetails }) {
         <img
           src={productDetails.img_url}
           alt={productDetails.title}
-          className="rounded-[10px] my-5 mx-auto md:my-0 md:max-w-full"
-          loading="lazy"
+          height={productDetails.img_height}
+          width={productDetails.img_width}
+          className="rounded-2xl my-5 mx-auto md:my-0 md:max-w-full"
         />
         <div className="flex flex-col gap-5 md:max-w-lg">
           <div className="flex flex-col gap-1">
