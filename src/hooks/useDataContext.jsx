@@ -15,7 +15,10 @@ export function DataContextProvider(props) {
 
   const getProducts = async () => {
     try {
-      const { data, error } = await supabase.from('product').select('*')
+      const { data, error } = await supabase
+        .from('product')
+        .select('*')
+        .order('created_at', { ascending: false })
       if (error) throw error
 
       setProductsList(data)
