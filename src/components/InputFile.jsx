@@ -51,7 +51,7 @@ export function InputFile({ productImage, setProductImage }) {
             height={productImage.img_height}
             width={productImage.img_width}
             alt="Product image"
-            className="rounded-2xl object-cover max-h-60 self-center"
+            className="rounded-2xl object-contain max-h-64 self-center"
           />
         </div>
       ) : (
