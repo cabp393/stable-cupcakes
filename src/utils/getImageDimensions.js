@@ -6,6 +6,7 @@ const getImageDimensions = (img_url, setState) => {
     img.onload = function () {
       setState({ img_url, img_width: this.width, img_height: this.height })
     }
+    img = null
   } catch (error) {
     console.log(error)
   }
