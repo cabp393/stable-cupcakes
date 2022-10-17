@@ -17,7 +17,7 @@ export function Navbar() {
   }
 
   return (
-    <nav className="flex flex-cols justify-between py-3">
+    <nav className="flex flex-cols justify-between p-3">
       <NavLink to="/">
         <div>home</div>
       </NavLink>
