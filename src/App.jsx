@@ -13,7 +13,7 @@ import toastCfg from './utils/toastCfg'
 
 function App() {
   return (
-    <main className="m-auto px-3 relative">
+    <main className="m-auto relative">
       <Navbar />
 
       <Routes>
