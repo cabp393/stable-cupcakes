@@ -8,6 +8,9 @@ module.exports = {
         content: '#a0a0a0',
         detail: '#393939',
       },
+      boxShadow: {
+        top: '0 -20px 20px #000000',
+      },
     },
   },
   plugins: [],
