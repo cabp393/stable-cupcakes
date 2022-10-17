@@ -15,14 +15,12 @@ function $Product() {
     }
   }, [productsList])
 
+  if (!productDetails) return <h1>product not found</h1>
+
   return (
-    <>
-      {productDetails ? (
-        <ProductCard productDetails={productDetails} />
-      ) : (
-        <h1>product not found</h1>
-      )}
-    </>
+    <section>
+      <ProductCard productDetails={productDetails} />
+    </section>
   )
 }
 
