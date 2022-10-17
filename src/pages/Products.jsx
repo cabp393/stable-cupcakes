@@ -8,8 +8,8 @@ function Products() {
   const session = useSession()
 
   return (
-    <div className="content-center w-full">
-      <div className="flex justify-around items-baseline my-5 md:my-10">
+    <section className="content-center w-full px-4">
+      <div className="flex justify-around items-baseline my-7 md:my-10">
         <div className="w-[30px]"></div>
         <div className="text-5xl text-center">products</div>
         {session ? (
@@ -35,7 +35,7 @@ function Products() {
           </NavLink>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 
