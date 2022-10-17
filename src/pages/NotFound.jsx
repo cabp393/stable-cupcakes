@@ -1,6 +1,6 @@
 function NotFound() {
   return (
-    <div className="NotFound">
+    <section className="NotFound">
       <p className="text-content">
         not found Lorem ipsum dolor sit amet consectetur adipisicing elit.
         Minima enim, laboriosam saepe rerum ad reprehenderit quae accusamus
@@ -15,7 +15,7 @@ function NotFound() {
         corrupti vitae est neque laboriosam voluptatibus similique molestiae,
         eligendi, amet fuga? Repellendus!
       </p>
-    </div>
+    </section>
   )
 }
 
