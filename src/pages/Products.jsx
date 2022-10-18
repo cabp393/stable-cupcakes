@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { IconAdd } from '../components/IconAdd'
+import { CartButton } from '../components/CartButton'
 import { useDataContext } from '../hooks/useDataContext'
 import useSession from '../hooks/useSession'
 
@@ -20,6 +21,7 @@ function Products() {
           <div className="w-[30px]"></div>
         )}
       </div>
+
       <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 gap-5">
         {productsList?.map(product => (
           <NavLink to={product.slug} key={product.id}>
@@ -35,6 +37,8 @@ function Products() {
           </NavLink>
         ))}
       </div>
+
+      <CartButton />
     </section>
   )
 }
