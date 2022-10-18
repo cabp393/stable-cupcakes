@@ -10,6 +10,7 @@ module.exports = {
       },
       boxShadow: {
         top: '0 -20px 20px #000000',
+        cart: '5px 5px 5px #00000030',
       },
     },
   },
