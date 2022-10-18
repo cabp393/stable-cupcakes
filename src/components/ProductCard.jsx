@@ -19,26 +19,26 @@ export function ProductCard({ productDetails }) {
         <div className="flex flex-col gap-5 md:max-w-lg">
           <div className="flex flex-col gap-1 px-4">
             prompt
-            <span className="text-detail">{productDetails.prompt}</span>
+            <span className="text-content">{productDetails.prompt}</span>
           </div>
           <div className="flex justify-between px-4">
             steps
-            <span className="text-detail">{productDetails.steps}</span>
+            <span className="text-content">{productDetails.steps}</span>
           </div>
 
           <div className="flex justify-between px-4">
             sampler
-            <span className="text-detail"> {productDetails.sampler}</span>
+            <span className="text-content"> {productDetails.sampler}</span>
           </div>
 
           <div className="flex justify-between px-4">
             cfg scale
-            <span className="text-detail"> {productDetails.cfg_scale}</span>
+            <span className="text-content"> {productDetails.cfg_scale}</span>
           </div>
 
           <div className="flex justify-between px-4">
             seed
-            <span className="text-detail"> {productDetails.seed}</span>
+            <span className="text-content"> {productDetails.seed}</span>
           </div>
           <AddToCart productDetails={productDetails} />
         </div>
