@@ -1,7 +1,7 @@
 function NotFound() {
   return (
     <section className="NotFound">
-      <p className="text-content">
+      <p className="text-content p-4">
         not found Lorem ipsum dolor sit amet consectetur adipisicing elit.
         Minima enim, laboriosam saepe rerum ad reprehenderit quae accusamus
         aspernatur praesentium a quia voluptas quibusdam optio ratione ab
