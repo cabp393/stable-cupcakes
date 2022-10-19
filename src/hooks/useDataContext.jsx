@@ -1,12 +1,19 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+const INITIAL_CART = {
+  totalQuantity: 0,
+  totalPrice: 0,
+  products: [],
+}
+
 export const DataContext = createContext()
 
 export function DataContextProvider(props) {
   const [productsList, setProductsList] = useState(null)
+  const [cart, setCart] = useState(INITIAL_CART)
   const [refresh, setRefresh] = useState(false)
-  const value = { productsList, setProductsList, setRefresh }
+  const value = { productsList, setProductsList, setRefresh, cart, setCart }
 
   useEffect(() => {
     getProducts()
