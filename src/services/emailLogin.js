@@ -1,12 +1,7 @@
 import { supabase } from '../lib/supabase'
 
-async function emailLogin(email, password) {
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  return error
+async function emailLogin(user) {
+  return supabase.auth.signInWithPassword(user).then(({ error }) => error)
 }
 
 export default emailLogin
