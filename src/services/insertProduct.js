@@ -1,9 +1,10 @@
 import { supabase } from '../lib/supabase'
 
 async function insertProduct(product) {
-  const { error } = await supabase.from('product').insert([product])
-
-  return error
+  return supabase
+    .from('product')
+    .insert([product])
+    .then(({ error }) => error)
 }
 
 export default insertProduct
