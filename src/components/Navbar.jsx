@@ -1,6 +1,7 @@
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import useSession from '../hooks/useSession'
-import { supabase } from '../lib/supabase'
+import logout from '../services/logout'
+import toast from 'react-hot-toast'
 
 export function Navbar() {
   const session = useSession()
@@ -8,11 +9,11 @@ export function Navbar() {
   const navigate = useNavigate()
 
   async function logOut() {
-    const { error } = await supabase.auth.signOut()
-    if (error) {
-      throw new error()
-    } else {
+    const error = await logout()
+    if (error) toast.error('something went wrong')
+    else {
       navigate('/')
+      toast.success('session closed successfully')
     }
   }
 
