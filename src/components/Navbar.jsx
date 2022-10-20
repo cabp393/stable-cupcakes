@@ -22,7 +22,13 @@ export function Navbar() {
       <NavLink to="/">
         <div>home</div>
       </NavLink>
-      <div className="text-detail">{params}</div>
+
+      <div
+        className="text-detail hover:cursor-pointer"
+        onClick={() => navigate(-1)}
+      >
+        {params}
+      </div>
 
       {session ? (
         <div onClick={logOut} className="hover:cursor-pointer">
