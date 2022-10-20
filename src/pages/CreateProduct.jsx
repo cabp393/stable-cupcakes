@@ -39,9 +39,7 @@ function CreateProduct() {
     try {
       const error = await insertProduct({
         ...productData,
-        img_url: productImage.img_url,
-        img_width: productImage.img_width,
-        img_height: productImage.img_height,
+        ...productImage,
         user_id: session.user.id,
       })
 
