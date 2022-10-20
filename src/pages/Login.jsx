@@ -24,7 +24,7 @@ function Login() {
     setLoading(true)
 
     try {
-      const error = await emailLogin(loginData.email, loginData.password)
+      const error = await emailLogin(loginData)
       if (error) throw error
 
       toast.success('login success')
