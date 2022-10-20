@@ -1,9 +1,7 @@
 import { supabase } from '../lib/supabase'
 
 async function logout() {
-  const { error } = await supabase.auth.signOut()
-
-  return error
+  return supabase.auth.signOut().then(({ error }) => error)
 }
 
 export default logout
