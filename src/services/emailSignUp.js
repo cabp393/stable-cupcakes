@@ -1,12 +1,8 @@
 import { supabase } from '../lib/supabase'
 
 async function signUp(email, password) {
-  const { error } = await supabase.auth.signUp({
-    email,
-    password,
-  })
-
-  return error
+  const user = { email, password }
+  return supabase.auth.signUp(user).then(({ error }) => error)
 }
 
 export default signUp
