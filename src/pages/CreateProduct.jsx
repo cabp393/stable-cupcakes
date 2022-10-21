@@ -17,6 +17,8 @@ function CreateProduct() {
   const session = useSession()
   const navigate = useNavigate()
 
+  if (!session) navigate('/login')
+
   const handleInput = e => {
     const name = e.target.name
     const value = e.target.value
