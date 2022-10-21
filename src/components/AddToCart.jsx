@@ -2,13 +2,13 @@ import { useDataContext } from '../hooks/useDataContext'
 import { CartButton } from './CartButton'
 
 function AddToCart({ productDetails }) {
-  const { cart, addProductToCart } = useDataContext()
+  const { cart, addCart } = useDataContext()
 
   const handleClick = () => {
-    addProductToCart(productDetails)
+    addCart(productDetails)
   }
 
-  const findProduct = cart.products.find(p => p.productId === productDetails.id)
+  const findProduct = cart.find(p => p.id === productDetails.id)
 
   if (findProduct) return <CartButton />
 
