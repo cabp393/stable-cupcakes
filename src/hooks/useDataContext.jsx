@@ -1,18 +1,16 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import getProductList from '../services/getProductsList'
 
-const INITIAL_CART = {
-  totalQuantity: 0,
-  totalPrice: 0,
-  products: [],
-}
+const INITIAL_CART = window.localStorage.getItem('cart')
+  ? JSON.parse(window.localStorage.getItem('cart'))
+  : []
 
 export const DataContext = createContext()
 
 export function DataContextProvider(props) {
   const [productsList, setProductsList] = useState(null)
-  const [cart, setCart] = useState(INITIAL_CART)
   const [refresh, setRefresh] = useState(false)
+  const [cart, setCart] = useState(INITIAL_CART)
 
   useEffect(() => {
     getProductList().then(setProductsList)
@@ -20,65 +18,28 @@ export function DataContextProvider(props) {
   }, [refresh])
 
   useEffect(() => {
-    updateTotalCart()
-  }, [cart.products])
+    window.localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
 
-  const addProductToCart = ({ id, title, slug, img_url, steps }) => {
+  const addCart = product => {
     const newProduct = {
-      productId: id,
-      productTitle: title,
-      productSlug: slug,
-      productImg: img_url,
-      productPrice: Number(steps),
-      productQuantity: 1,
+      ...product,
+      quantity: 1,
+      price: Number(product.steps),
     }
-
-    setCart(prev => ({
-      products: [...prev.products, newProduct],
-    }))
+    setCart(prev => [...prev, newProduct])
   }
 
-  const removeProductFromCart = idToRemove => {
-    setCart(prev => {
-      const updateProductList = prev.products.filter(
-        p => p.productId !== idToRemove
-      )
-
-      return {
-        ...prev,
-        products: updateProductList,
-      }
-    })
+  const removeCart = idToRemove => {
+    setCart(prev => prev.filter(p => p.id !== idToRemove))
   }
 
-  const updateProductQuantityFromCart = (idToUpdate, value) => {
+  const updateCart = (idToUpdate, value) => {
     setCart(prev => {
-      const productIndex = prev.products.findIndex(
-        p => p.productId === idToUpdate
-      )
-
-      const tempProductList = [...prev.products]
-      tempProductList[productIndex].productQuantity = value
-      return { ...prev, products: tempProductList }
-    })
-  }
-
-  const updateTotalCart = () => {
-    setCart(prev => {
-      let totalPrice = 0
-      let totalQuantity = 0
-
-      prev.products.forEach(p => {
-        totalQuantity += p.productQuantity
-        totalPrice += p.productQuantity * p.productPrice
-      })
-
-      console.log(totalQuantity)
-      return {
-        ...prev,
-        totalPrice,
-        totalQuantity,
-      }
+      const productIndex = prev.findIndex(p => p.id === idToUpdate)
+      const tempProductList = [...prev]
+      tempProductList[productIndex].quantity = value
+      return tempProductList
     })
   }
 
@@ -88,9 +49,9 @@ export function DataContextProvider(props) {
     setRefresh,
     cart,
     setCart,
-    addProductToCart,
-    removeProductFromCart,
-    updateProductQuantityFromCart,
+    addCart,
+    removeCart,
+    updateCart,
   }
 
   return (
