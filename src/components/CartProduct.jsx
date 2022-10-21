@@ -3,36 +3,32 @@ import { NavLink } from 'react-router-dom'
 import { useDataContext } from '../hooks/useDataContext'
 
 export function CartProduct({ product }) {
-  const [inputQuantity, setInputQuantity] = useState(product.productQuantity)
-
-  const { removeProductFromCart, updateProductQuantityFromCart } =
-    useDataContext()
+  const [inputQuantity, setInputQuantity] = useState(product.quantity)
+  const { removeCart, updateCart } = useDataContext()
 
   const handleQuantity = e => {
     const value = e.target.value
     setInputQuantity(value)
-    updateProductQuantityFromCart(product.productId, Number(value))
+    updateCart(product.id, Number(value))
   }
 
   const handleRemove = () => {
-    removeProductFromCart(product.productId)
+    removeCart(product.id)
   }
 
   return (
     <article className="grid grid-cols-[20%_1fr_20%] gap-5 p-4 lg:px-80">
-      <NavLink to={`/products/${product.productSlug}`}>
+      <NavLink to={`/products/${product.slug}`}>
         <img
-          src={product.productImg}
-          alt={product.productTitleTitle}
+          src={product.img_url}
+          alt={product.title}
           className="rounded-[10px] max-w-40 lg:max-h-40"
         />
       </NavLink>
 
       <div className="flex flex-col gap-2">
-        <NavLink to={`/products/${product.productSlug}`}>
-          <div>{product.productTitle}</div>
-        </NavLink>
-        <div className="text-content">$ {product.productPrice}</div>
+        <h2>{product.title}</h2>
+        <div className="text-content">$ {product.price}</div>
       </div>
 
       <div className="flex flex-col items-center gap-2">
