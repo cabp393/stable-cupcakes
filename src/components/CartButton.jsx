@@ -1,11 +1,13 @@
 import { NavLink } from 'react-router-dom'
 import { useDataContext } from '../hooks/useDataContext'
+import { calculateTotals } from '../utils/calculateTotals'
 import { IconCart } from './IconCart'
 
 export function CartButton() {
   const { cart } = useDataContext()
+  const { totalQuantity } = calculateTotals(cart)
 
-  if (cart.totalQuantity === 0) return
+  if (totalQuantity === 0) return
 
   return (
     <NavLink
@@ -14,7 +16,7 @@ export function CartButton() {
     >
       <IconCart size={30} />
       <div className="bg-primary absolute -top-4 right-10 px-4 py-1 rounded-full shadow-cart">
-        {cart.totalQuantity}
+        {totalQuantity}
       </div>
     </NavLink>
   )
